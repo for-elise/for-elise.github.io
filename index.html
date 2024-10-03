@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <title>FürElise: Capturing and Physically Synthesizing Hand Motions of Piano Performance</title>
+
+</head>
+
+<body>
+
+    <div id="title_slide">
+        <div class="title_left">
+            <h1>FürElise: Capturing and Physically Synthesizing </br>Hand Motions of Piano Performance</h1>
+            <h2>SIGGRAPH Asia 2024</h2>
+            <div class="author-container">
+                <div class="author-name"><a href="https://cs.stanford.edu/~rcwang/" target="_blank">Ruocheng
+                        Wang<sup>&dagger;</sup></a></div>
+                <div class="author-name"><a href="https://pei-xu.github.io/" target="_blank">Pei
+                        Xu<sup>&dagger;</sup></a></div>
+                <div class="author-name"><a href="https://hshi74.github.io/" target="_blank">Haochen Shi</a></div>
+                <div class="author-name"><a href="https://music.stanford.edu/people/elizabeth-schumann"
+                        target="_blank">Elizabeth Schumann</a></div>
+                <div class="author-name"><a href="https://tml.stanford.edu/people/karen-liu" target="_blank">C. Karen
+                        Liu</a></div>
+            </div>
+            <div class="affiliation">
+                <p><img src="assets/logos/SUSig-red.png" style="height: 40px"></p>
+            </div>
+            <div class="contribution">&dagger; indicates equal contribution.</div>
+            <div class="button-container">
+                <a href="" target="_blank" class="button"><i class="ai ai-arxiv"></i>&emsp14;arXiv</a>
+                <a href="" target="_blank" class="button"><i class="fa-solid fa-database"></i>&emsp14;Dataset</a>
+                <a href="" target="_blank" class="button"><i class="fa-light fa-code"></i>&emsp14;Code (To be
+                    released)</a>
+            </div>
+
+            <br>
+            <div class="slideshow-container">
+                <img src="assets/resources/teaser.png" style="width: 100%; max-width: 100%; height: auto;">
+                <div class="caption">
+                    Our paper collects the first large-scale 3D hand motion dataset  containing 10 hours, 153 pieces of piano music performed by 15 elite-level pianists, along with synchronized audio and key pressing events; we also proposes a method that can control a physically simulated hand to play novel pieces "unheard" from the training set.
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+    <hr class="rounded">
+    <div id="overview">
+        <h1>3D Dataset Visualization (with ♫)</h1>
+        <p>
+            <iframe id="webpageFrame" src="/static_visualizer/vis.html?id=100" width="100%" height="500px"></iframe> <!-- Default first option loaded -->
+        </p>
+        <div class="pill-container" id="dataset">
+            <div class="pill-row">
+                <span class="pill selected" data-webpage="/static_visualizer/vis.html?id=100">Piano Sonata No. 2 (1st Movement)</span>
+                <span class="pill" data-webpage="/static_visualizer/vis.html?id=87">Goldberg Variations, BWV 988: Aria</span>
+                <span class="pill" data-webpage="/static_visualizer/vis.html?id=23">Scales</span>
+            </div>
+            <div class="pill-row">
+                <span class="pill" data-webpage="/static_visualizer/vis.html?id=0">Concerto in D Minor, BWV 1052: I. Allegro</span>
+                <span class="pill" data-webpage="/static_visualizer/vis.html?id=104">Rhapsody in Blue</span>
+                <span class="pill" data-webpage="/static_visualizer/vis.html?id=8">A Slow Boat to China</span>
+            </div>
+        </div>
+        <p>
+            Here we show a few sample motions in our dataset using a 3D interactive visualizer. Please download the dataset to see full recordings of all 153 pieces.
+        </p>
+
+        <h1>Synthesized Results</h1>
+        <div class="video_container">
+            <video controls preload="metadata">
+                <source src="assets/resources/exp_results/forelise.mp4#t=0.1" type="video/mp4">
+            </video>
+        </div>
+        <div class="pill-container" , id="syn_results">
+            <div class="pill-row">
+            <span class="pill selected" data-video="assets/resources/exp_results/forelise.mp4#t=0.1">Für Elise</span>
+            <span class="pill" data-video="assets/resources/exp_results/turca.mp4">Rondo Alla Turca</span>
+            <span class="pill" data-video="assets/resources/exp_results/xmas.mp4">Merry Christmas Mr. Lawrence</span>
+            <span class="pill" data-video="assets/resources/exp_results/mazurka.mp4">Mazurka in B flat major Op. 7 No.
+                1</span>
+            </div>
+        </div>
+        <p>
+        Results from our method. We train policies to play new music scores unseen from the dataset in physics simulation.
+        </p>
+        <h1>Overview Video</h1>
+        <div class="video_container">
+        <div class="youtube-container">
+        <iframe src="https://www.youtube.com/embed/citdEQ6le7k?si=sFmuDvlzX-0x6aca" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        </div>
+
+        <h1>Dataset Collection</h1>
+        <div class="image_container">
+            <img src="assets/resources/motion_reconstruction.png" alt="Description of Image">
+        </div>
+        <p>
+            Our markerless motion capture system first reconstructs initial 3D motions by triangulating 2D keypoints from multi-view videos. Then the motions are regularized by fitting MANO parameters. Finally, they are refined via inverse kinematics using the MIDI key-pressing data recorded by specialized sensors. 
+        </p>
+        <div class="video_container">
+            <video controls preload="metadata">
+                <source src="assets/resources/overlay_vis_720p.mp4#t=0.1" type="video/mp4">
+            </video>
+        </div>
+        <p>
+        Reconstructed motion (shown as white hands) accurately matches the original video in multiple camera angles.
+        </p>
+        <h1>Method</h1>
+        <div class="image_container">
+            <img src="assets/resources/method.png" alt="Description of Image">
+        </div>
+        <p>
+        Given a novel sheet music in MIDI format, we first create a reference motion ensemble of 3D hands using a trained diffusion model and motion retrieval from the dataset. We then train a control policy along with two discriminators to imitate the reference motion ensemble while achieving musical accuracy in physics simulation.
+        </p>
+        <br>
+        <hr class="rounded">
+        <h1>Acknowledgments</h1>
+        <p>
+            We thank Yifeng Jiang and Jiaman Li for providing detailed feedback on the paper. This work was supported in
+            part by the Wu-Tsai Human Performance Alliances, Stanford Institute for Human-Centered Artificial
+            Intelligence and Roblox. We thank the 15 pianist volunteers for their essential contributions to this study.
+            To protect their privacy, they remain unnamed, but their participation was invaluable to our research.
+        </p>
+
+        <br>
+        <br>
+        <hr class="rounded">
+        <h1>BibTeX</h1>
+        <p class="bibtex">
+            @inproceedings{wang2024piano, <br>
+                &nbsp;&nbsp;title = {FürElise: Capturing and Physically Synthesizing Hand Motions of Piano Performance}, <br>
+                &nbsp;&nbsp;author = {Ruocheng Wang and Pei Xu and Haochen Shi and Elizabeth Schumann and C. Karen Liu}, <br>
+                &nbsp;&nbsp;booktitle = {SIGGRAPH Asia 2024}, <br>
+                &nbsp;&nbsp;year = {2024}
+                }
+        </p>
+        <br>
+        <hr class="rounded">
+    <p style="text-align: center; font-size: 14px; color: #666;">
+        Website template adapted from 
+        <a href="https://dex-cap.github.io/" style="color: #4285f4;">DexCap</a>, 
+    </p>
+    </div>
+</body>
+
+<script>
+    // Select all the groups
+    const groups = document.querySelectorAll('.pill-container');
+    var isMobile = window.matchMedia("(max-width: 767px)").matches;
+    const webpageFrame = document.getElementById('webpageFrame');
+    if (!isMobile) {
+        const webpageSrc = "/static_visualizer/vis.html?id=100";
+    } else {
+        webpageFrame.style.display = 'none';
+        const mobileMessage = document.createElement('div');
+        mobileMessage.textContent = "Not compatible on mobile device";
+        mobileMessage.style.textAlign = 'center';
+        mobileMessage.style.padding = '20px';
+        webpageFrame.parentNode.insertBefore(mobileMessage, webpageFrame.nextSibling);
+    }
+    // Iterate over each group
+    groups.forEach(group => {
+        const pills = group.querySelectorAll('.pill');
+
+        // Add click event listener to each pill within the group
+        pills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                // Remove the selected class from all pills in the group
+                pills.forEach(p => p.classList.remove('selected'));
+                // Add the selected class to the clicked pill
+                pill.classList.add('selected');
+
+                // If the group is the syn_results, handle video change
+                if (group.id === 'dataset' && !isMobile) {
+                    const webpageSrc = pill.getAttribute('data-webpage');
+                    // Update the webpage source
+                    webpageFrame.src = webpageSrc;
+                    
+                } else
+                if (group.id === 'syn_results') {
+                    const videoSrc = pill.getAttribute('data-video');
+                    const videoElement = document.querySelector('.video_container video source');
+                    const videoPlayer = document.querySelector('.video_container video');
+                    // Update the video source and reload the video
+                    videoElement.src = videoSrc;
+                    videoPlayer.load();
+                    // play the video
+                    videoPlayer.play();
+                }
+            });
+        });
+    });
+</script>
+  
+</html>
